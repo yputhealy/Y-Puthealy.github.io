@@ -2,40 +2,299 @@
 <html lang="en">
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Foreign Investment In Cambodia</title>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coordinate function</title>
+    <link rel="icon" href="images/icon_webtab.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/dc.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet.markerCluster.css" />
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet-legend.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet-control-minimap.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/google_font_Esteban.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/">
+    <link rel="stylesheet" type="text/css" href="myCSS_styleFiles/main.css">
+
 </head>
 
-<body>
-    <h1>Reverse Geocoding Service</h1>
-    <form action="{% url 'hello:search' %}" method="GET">
-        <!-- {% csrf_token %} -->
-        <label>Latitude:</label>
-        <input type="text" name="lat">
-        <label>Longitude:</label>
-        <input type="text" name="lng">
-        <label>Language</label>
-        <select name="language" id="lang">
-            <option value="en">English</option>
-            <option value="km">Khmer</option>
-            <option value="cn">Chinese</option>
-        </select>
-        <input type="submit" value="Get location">
-    </form>
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+                <a class="navbar-brand" href="#">Foreign Investment in Cambodia</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#section1">Map</a></li>
+                    <li><a href="#section2">Insights on Investment Data</a></li>
+                    <li><a href="#section3">Data Table</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Access <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#myModal_about">About the project</button></li>
+                            <li><button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#myModal_demoVideo">Demo video</button></li>
+                            <li><button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#myModal_copyRight">License & copyright</button></li>
+                            <li><button type="button" class="btn btn-info btn-sm btn-block" onclick=" window.open('abbrlist_dataExplaination.html','_blank')"> Abbr list & data explanation</button></li>
+                            <li><button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#myModal_dataEntry">NewDataEntryForm</button></li>
 
-    <!-- {%block content%}
-    <p>
-        Commune: <strong>{{result.communeName}}</strong>
-    </p>
-    <p>
-        District: <strong>{{result.districtName}}</strong>
-    </p>
-    <p>
-        Province: <strong>{{result.provinceName}}</strong>
-    </p>
-    {% endblock %} -->
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row-title" id="control-row">
+            <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
+
+                <!-- <a id="icon" href="https://geoair.lipingyang.org/" target="_blank"><img src="images/GEE-AI-webApp_icon.jpeg" alt="GeoAIR_icon" style="width:12%;height:5%;"></a> -->
+                <h3 id="main-title" style="font-family: 'Esteban';"><b><i>LRIC project:</i> An Interactive Web-Map application for Foreign Investment in Cambodia</b></h3>
+
+                <div id="loadingGIF"></div>
+
+                <div class="row" id="count-row">
+                    <div class="col-xs-12 dc-dataTitle-count dc-chart" id="data-count">
+                        <h4>Foreign Investment Records
+                            <small>
+            <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+            <a id="all" href="javascript:location.reload();">Reset All</a><i style="color: grey;"> (all legends of the donut charts are scrollable and filterable)</i>
+            </span>
+            </small>
+
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="section1_1" class="container-fluid">
+            <div class="row" id="control-row">
+                <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
+                    <button type="button" class="btn btn-default info pull-right" data-toggle="modal" data-target="#myModal_dataEntry"><i><b>NewDataEntryForm</b></i></button>
+                    <button type="button" class="btn btn-default info pull-right" onclick=" window.open('abbrlist_dataExplaination.html','_blank')"> Abbr list & data explanation</button>
+                    <button type="button" class="btn btn-default info pull-right" data-toggle="modal" data-target="#myModal_copyRight">License & copyright</button>
+                    <button type="button" class="btn btn-default info pull-right" data-toggle="modal" data-target="#myModal_demoVideo">Demo video</button>
+                    <button type="button" class="btn btn-default info pull-right" data-toggle="modal" data-target="#myModal_about">About the project</button>
+
+                    <h4> Geospatial distribution of the reviewed/selected investment projects<small><a id="mapReset"> reset map</a></small></h4>
+                </div>
+            </div>
+        </div>
+        <div id="section1" class="container-fluid">
+            <div class="row" id="control-row-map">
+                <div class="col-xs-6">
+                    <div class="map" id='map'></div>
+                    <div id='cluster-map-anchor'></div>
+                </div>
+                <div class="col-xs-3 pie-chart">
+                    <h4 data-toggle="tooltip" data-placement="top" title="country of first author's institution" class="blue-tooltip"><br>Sector <small><a id="country">reset</a></small></h4>
+                    <div class="dc-chart" id="chart-ring-sector"></div>
+                    <div style="width:150px; height:120px" id="sector-legend" class="dc-html-legend-container"></div>
+                </div>
+                <div class="col-xs-3 pie-chart">
+                    <h4><br>Data Classification <small><a id="journal">reset</a></small></h4>
+                    <div class="dc-chart" id="chart-ring-data_c"></div>
+                    <div style="width:135px; height:120px" id="data_c-legend" class="dc-html-legend-container"></div>
+                </div>
+            </div>
+        </div>
+        <div id="section2" class="container-fluid">
+            <div class="row" id="control-row-bar-pie">
+                <div class="col-xs-3">
+                    <h4><br>Data Classification Count <small><a id="data_c">reset</a></small></h4>
+                    <div class="dc-chart" id="chart-data_c-count"></div>
+                </div>
+                 <div class="col-xs-3 pie-chart">
+                    <h4 data-toggle="tooltip" data-placement="top" title="the sector where you focused on." class="blue-tooltip"><br>Note on Coordinate <small><a id="area">reset</a></small></h4>
+                    <div class="dc-chart" id="chart-ring-note_co"></div>
+                    <div style="width:150px; height:120px" id="note_co-legend" class="dc-html-legend-container"></div>
+                </div>
+                <div class="col-xs-3 pie-chart">
+                    <h4><br>Project Location <small><a id="pro_loc">reset</a></small></h4>
+                    <div class="dc-chart" id="chart-ring-pro_loc"></div>
+                    <div style="width:230px; height:120px" id="pro_loc-legend" class="dc-html-legend-container"></div>
+                </div>
+                <div class="row" id="control-row-row-pie">
+
+                    <div class="col-xs-3 row-chart">
+                        <h4 data-toggle="tooltip" data-placement="top" title="Nationality of project" class="blue-tooltip"><br>Nationality <small><a id="software">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-ring-nat"></div>
+                        <div id="nat-row-axis"></div>
+                    </div>
+                </div>
+            </div>
+
+        <div id="section3" class="container-fluid">
+            <div class="row" id="control-row">
+                <div class="col-xs-12">
+                    <div>
+                        <div class="dc-dataTable-count">
+                            <span class="filter-count"></span> selected out of <span class="total-count"></span> records
+                        </div>
+                    </div>
+                    <table id="data-table" class="table table-hover dc-data-table">
+                    </table>
+                </div>
+                <div class="row" id="control-row">
+                    <div class="col-xs-12">
+                        <table id="data-table" class="table table-hover dc-data-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3v5.16.0.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilterv1.5.4.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc4.2.0.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/Leafletv1.6.0.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/colorbrewer.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/jQuery.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/Bootstrap.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/axis_dcv4.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet.markerCluster.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.leafletv0.5.5.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.datatables.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet-osm.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/Control.MiniMap.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3v5.layout.cloud.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc-wordcloud_d3v5.js"></script>
+    <script type="text/javascript" src="JS_CSS_downloaded_libraries/removeStopWords.js"></script>
+    </script>
+
+    <script type="text/javascript" src="myJS_scripts/main.js"></script>
+
+    <div class="modal fade" id="myModal_about" role="dialog">
+        <div class="modal-dialog">
+
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">About info for web app developed by <a href="https://www.linkedin.com/in/y-puthealy-4a2440126/" target="_blank">Y Puthealy</h4>
+                    <a href="https://www.linkedin.com/in/y-puthealy-4a2440126/" target="_blank">LinkedIn;"></a>
+                </div>
+                <div class="modal-body">
+
+                    <p>This is an interactive web app for reviewing the Foreign Investment In Cambodia<a href="https://www.linkedin.com/in/y-puthealy-4a2440126/" target="_blank"><i>Remote Sensing</i></a>.
+                    </p>
+
+                    <strong>Web app team:</strong>
+                    <p>thealy Hello</a> hello</p>
+
+                    <p>Web map design and developer: <a href="https://yputhealy.github.io/" target="_blank">Y Puthealy</a> (yputhealy097@gmail.com)
+                    </p>
+
+                    <p>Data provider (including data structure design): <a href="https://www.linkedin.com/in/y-puthealy-4a2440126/" target="_blank">Y Puthealy</a> (yputhealy097@gmail.com)</p>
+
+                    <strong>Acknowledgements:</strong>
+                    <li><a href="https://dc-js.github.io/dc.js/" target="_blank">dc.js</a></li>
+                    <li><a href="https://d3js.org/" target="_blank">D3</a></li>
+                    <li><a href="https://leafletjs.com/" target="_blank">Leaflet</a></li>
+  
+                    <p style="text-align:center;"> <strong> Our web app visitor map</strong> </p>
+
+                    <br>
+                    <div>
+                        <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=n&d=6v6ApSiDI7LU8886HZwaMzprvYOegUfeTHjx0v25lT0&co=ffffff&ct=808080&cmo=3acc3a&cmn=ff5353'></script>
+                    </div>
+
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal_demoVideo" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b>Demonstration and Explanation</b></h4>
+                </div>
+                <div class="modal-body">
+                    <iframe width="420" height="315" src="https://www.youtube.com/watch?v=y7tHZ3WeJAw&list=RDy7tHZ3WeJAw&start_radio=1"></iframe>
+                    <br>
+                    <b>0:00 - 1:02:</b> Introduction & Motivation
+                    </br>
+                    <b>1:03 - 1:50:</b> Target users
+                    </br>
+                    <b>1:51 - 6:29: </b> Brief demo (major components introduction)
+                    </br>
+                    <b>6:30 - 9:18: </b> Brief demo (examples)
+                    </br>
+                    <b>9:18 - 9:39: </b> Acknowledgements & Contact Info
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="myModal_copyRight" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b> License & copyright</b></h4>
+                </div>
+                <div class="modal-body">
+                    <p>b>thealy</b>
+                    </p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal_dataEntry" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b> Web App</b></h4>
+                </div>
+                <div class="modal-body">
+
+                    <p>
+                        https://www.linkedin.com/in/y-puthealy-4a2440126/
+                    </p>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hide loader after 15 seconds, even if the page hasn't finished loading
+        // jQuery('#loadingGIF').fadeOut(15 * 1000);
+        jQuery('#loadingGIF').fadeOut(3 * 1000);
+    </script>
 
 </body>
 
